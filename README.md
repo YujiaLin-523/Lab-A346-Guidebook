@@ -38,7 +38,7 @@ bash Anaconda3-2024.02-1-Linux-x86_64.sh
 mkdir Franka_env
 cd Franka_env
 ```
-然后下载[linux-5.15.137.tar.gz](https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.15.137.tar.gz)和[patch-5.15.137-rt71.patch.gz][https://www.kernel.org/pub/linux/kernel/projects/rt/5.15/patch-5.15.137-rt71.patch.gz](https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/5.15/older/)文件到`Franka_env`文件夹，并解压文件：
+然后下载[linux-5.15.137.tar.gz](https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.15.137.tar.gz)和[patch-5.15.137-rt71.patch.gz](https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/5.15/older/)文件到`Franka_env`文件夹，并解压文件：
 ```
 tar xvzf linux-5.15.137.tar.gz
 gunzip patch-5.15.137-rt71.patch.gz
