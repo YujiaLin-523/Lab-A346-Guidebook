@@ -2,30 +2,37 @@
 欢迎来到Lab A436！这个仓库中有你新手入门所需的文档和资料。
 
 ## Ubuntu
+
 ### 安装Ubuntu
-实验室使用Ubuntu 20.04 LTS，镜像文件在Ubuntu文件夹中，用任意一台安装了Ubuntu的电脑中的启动盘创建器或者rufus制作启动盘。如果使用Dell电脑，则在启动时按F2进入bios，调整boot sequence，将启动盘改为第一位并保存设置，然后按照提示安装Ubuntu。注意，最好选择清理整个磁盘来安装Ubuntu，这样可以防止驱动程序等相互干扰。
+实验室使用`Ubuntu 20.04 LTS`，镜像文件在`Ubuntu`文件夹中，用任意一台安装了Ubuntu的电脑中的启动盘创建器或者rufus制作启动盘。如果使用Dell电脑，则在启动时按F2进入bios，调整boot sequence，将启动盘改为第一位并保存设置，然后按照提示安装Ubuntu。注意，最好选择清理整个磁盘来安装Ubuntu，这样可以防止驱动程序等相互干扰。
+
 ### 安装常用软件
+
 #### QQ/Microsoft Edge/VS Code/Clash Verge
-安装包位于Ubuntu文件夹中，双击可以直接安装，如果不能直接安装，则尝试使用命令行安装：
+安装包位于`Ubuntu`文件夹中，双击可以直接安装，如果不能直接安装，则尝试使用命令行安装：
 ```
 sudo dpkg -i xxx.deb
 ```
 Clash Verge是实验室使用的科学上网软件，安装好之后联系袁双杰导入配置文件才能使用。
+
 #### Anaconda
-安装所需的.sh文件位于Ubuntu文件夹中，下载到本地后进入文件夹，右键，选择在终端打开，然后用命令行安装：
+安装所需的.sh文件位于`Ubuntu`文件夹中，下载到本地后进入文件夹，右键，选择在终端打开，然后用命令行安装：
 ```
 bash Anaconda3-2024.02-1-Linux-x86_64.sh
 ```
 
-## Franka Pandaa
+## Franka Panda
+关于Franka Panda机械臂的使用，可以首先查阅官方提供的[FCI文档](https://franka.cn/FCI/)
+
 ### 配置环境
+
 #### 安装实时内核
 首先构建文件夹：
 ```
 mkdir Franka_env
 cd Franka_env
 ```
-然后下载Franka文件夹中的"linux-5.15.137.tar.gz"和"patch-5.15.137-rt71.patch.gz"文件到Franka_env文件夹，并解压文件：
+然后下载`Franka`文件夹中的`linux-5.15.137.tar.gz`和`patch-5.15.137-rt71.patch.gz`文件到`Franka_env`文件夹，并解压文件：
 ```
 tar xvzf linux-5.15.137.tar.gz
 gunzip patch-5.15.137-rt71.patch.gz
@@ -48,10 +55,10 @@ make olddefconfig
 make menuconfig
 ```
 这个命令会打开一个终端界面，你可以在其中配置抢占模型。  
-使用箭头键导航到 General Setup > Preemption Model 并选择 Fully Preemptible Kernel (Real-Time) 。  
-之后导航到 Cryptographic API > Certificates for signature checking （在列表的最底部）> Provide system-wide ring of trusted keys > Additional X.509 keys for default system keyring，从提示符中移除 “debian/canonical-certs.pem”，然后按OK。  
-将此配置保存到 .config 并退出 TUI。我们建议将其他选项保留为默认值。
-完成后编辑.config文档：
+使用箭头键导航到 `General Setup` > `Preemption Model` 并选择 `Fully Preemptible Kernel (Real-Time)` 。  
+之后导航到 `Cryptographic API` > `Certificates for signature checking `（在列表的最底部）> `Provide system-wide ring of trusted keys` > `Additional X.509 keys for default system keyring`，从提示符中移除 `debian/canonical-certs.pem`，然后按OK。  
+将此配置保存到 `.config` 并退出 TUI。我们建议将其他选项保留为默认值。
+完成后编辑`.config`文档：
 ```
 gedit .config
 ```
@@ -89,7 +96,7 @@ uname -msr
 sudo addgroup realtime
 sudo usermod -a -G realtime $(whoami)
 ```
-然后修改/etc/security/limits.conf 文件：
+然后修改`/etc/security/limits.conf`文件：
 ```
 sudo gedit /etc/security/limits.conf
 ```
@@ -103,3 +110,59 @@ sudo gedit /etc/security/limits.conf
 @realtime hard memlock 102400
 ```
 再次重启即可完成实时内核的安装。
+
+#### 构建libfranka
+首先需要卸载已安装的`libfranka`和`libfranka_ros`避免冲突：
+```
+sudo apt remove "*libfranka*"
+```
+接下来安装依赖项：
+```
+sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
+```
+然后新建`catkin_ws`文件夹，在此文件夹中下载libfranka的源代码：
+```
+git clone --recursive https://github.com/frankaemika/libfranka --branch 0.9.2
+cd libfranka
+```
+然后输入以下命令运行CMAKE：
+```
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+cmake --build .
+```
+使用以下命令构建`libfranka`Debian软件包：
+```
+cpack -G DEB
+```
+然后安装此软件包：
+```
+sudo dpkg -i libfranka*.deb
+```
+
+#### 安装ROS Noetic
+推荐使用`鱼香ROS`的一键安装ROS的命令，根据提示进行安装：
+```
+wget http://fishros.com/install -O fishros && . fishros
+```
+
+#### 构建ROS包
+首先选择一个目录中的Catkin工作区：
+```
+cd catkin_ws
+source /opt/ros/noetic/setup.sh
+catkin_init_workspace src
+cd src
+```
+然后将`franka_ros`的源代码下载到src文件夹中：
+```
+git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros --branch 0.9.1
+```
+安装任何缺少的依赖项并构建包：（注意：以下命令中注意将 `/path/to/libfranka/build` 替换成自己的 `libfranka build` 构建路径。）
+```
+rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=/path/to/libfranka/build
+source devel/setup.sh
+```
+到这里，Franka Panda的环境就配置好了。
