@@ -1,28 +1,34 @@
 # Lab-A436-Guidebook
-欢迎来到Lab A436！这个仓库中有你新手入门所需的文档和资料。
+欢迎来到Lab A436！这个仓库中有你新手入门所需的文档。
 
 ## Ubuntu
 
 ### 安装Ubuntu
-实验室使用`Ubuntu 20.04 LTS`，镜像文件在`Ubuntu`文件夹中，用任意一台安装了Ubuntu的电脑中的启动盘创建器或者rufus制作启动盘。如果使用Dell电脑，则在启动时按F2进入bios，调整boot sequence，将启动盘改为第一位并保存设置，然后按照提示安装Ubuntu。注意，最好选择清理整个磁盘来安装Ubuntu，这样可以防止驱动程序等相互干扰。
+实验室使用`Ubuntu 20.04 LTS`，镜像文件`ubuntu-20.04.6-desktop-amd64.iso`可以从[清华镜像](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/20.04/)下载，然后用任意一台安装了Ubuntu的电脑中的启动盘创建器或者`rufus`制作启动盘。如果使用Dell电脑，则在启动时按F2进入bios，调整boot sequence，将启动盘改为第一位并保存设置，然后按照提示安装Ubuntu。注意，最好选择清理整个磁盘来安装Ubuntu，这样可以防止驱动程序等相互干扰。
 
 ### 安装常用软件
 
 #### QQ/Microsoft Edge/VS Code/Clash Verge
-安装包位于`Ubuntu`文件夹中，双击可以直接安装，如果不能直接安装，则尝试使用命令行安装：
+安装包下载地址：  
+`QQ` https://im.qq.com/linuxqq/index.shtml   
+`Microsoft Edge` https://www.microsoft.com/zh-cn/edge  
+`VS Code` https://code.visualstudio.com/  
+`Clash Verge` https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v1.5.4
+
+.deb文件双击可以直接安装，如果不能直接安装，则尝试使用命令行安装：
 ```
 sudo dpkg -i xxx.deb
 ```
 Clash Verge是实验室使用的科学上网软件，安装好之后联系袁双杰导入配置文件才能使用。
 
 #### Anaconda
-安装所需的.sh文件位于`Ubuntu`文件夹中，下载到本地后进入文件夹，右键，选择在终端打开，然后用命令行安装：
+从[清华镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/)下载`Anaconda3-2024.02-1-Linux-x86_64.sh`文件，进入所在文件夹，右键，选择在终端打开，然后用命令行安装：
 ```
 bash Anaconda3-2024.02-1-Linux-x86_64.sh
 ```
 
 ## Franka Panda
-关于Franka Panda机械臂的使用，可以首先查阅官方提供的[FCI文档](https://franka.cn/FCI/)
+关于Franka Panda机械臂的使用，可以首先查阅官方提供的[FCI文档](https://franka.cn/FCI/)。
 
 ### 配置环境
 
@@ -32,7 +38,7 @@ bash Anaconda3-2024.02-1-Linux-x86_64.sh
 mkdir Franka_env
 cd Franka_env
 ```
-然后下载`Franka`文件夹中的`linux-5.15.137.tar.gz`和`patch-5.15.137-rt71.patch.gz`文件到`Franka_env`文件夹，并解压文件：
+然后下载[linux-5.15.137.tar.gz](https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.15.137.tar.gz)和[patch-5.15.137-rt71.patch.gz](https://www.kernel.org/pub/linux/kernel/projects/rt/5.15/patch-5.15.137-rt71.patch.gz)文件到`Franka_env`文件夹，并解压文件：
 ```
 tar xvzf linux-5.15.137.tar.gz
 gunzip patch-5.15.137-rt71.patch.gz
@@ -120,7 +126,7 @@ sudo apt remove "*libfranka*"
 ```
 sudo apt install build-essential cmake git libpoco-dev libeigen3-dev
 ```
-然后新建`catkin_ws`文件夹，在此文件夹中下载libfranka的源代码：
+然后新建`catkin_ws`文件夹，在此文件夹中下载`libfranka`的源代码：
 ```
 git clone --recursive https://github.com/frankaemika/libfranka --branch 0.9.2
 cd libfranka
@@ -155,7 +161,7 @@ source /opt/ros/noetic/setup.sh
 catkin_init_workspace src
 cd src
 ```
-然后将`franka_ros`的源代码下载到src文件夹中：
+然后将`franka_ros`的源代码下载到`src`文件夹中：
 ```
 git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros --branch 0.9.1
 ```
