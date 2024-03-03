@@ -172,11 +172,11 @@ cd src
 ```
 git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros --branch 0.9.1
 ```
-安装任何缺少的依赖项并构建包：（注意：以下命令中注意将 `/path/to/libfranka/build` 替换成自己的 `libfranka build` 构建路径。）
+安装任何缺少的依赖项并构建包：（注意：以下命令中注意将 `/home/glasgow/catkin_ws/libfranka/build` 替换成自己的 `libfranka build` 构建路径。）
 ```
 rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
 cd catkin_ws
-catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=/path/to/libfranka/build
+catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=/home/glasgow/catkin_ws/libfranka/build
 cd catkin_ws
 source devel/setup.sh
 ```
