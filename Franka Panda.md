@@ -49,11 +49,11 @@ CONFIG_DEBUG_INFO_BTF=y
 ```
 CONFIG_SYSTEM_TRUSTED_KEYS=""
 CONFIG_SYSTEM_REVOCATION_KEYS=""
-CONFIG_DEBUG_INFO_BTF=n
+CONFIG_DEBUG_INFO_BTF=y
 ```
 编译内核（-j后面的数字就是在终端中输入`nproc`，将输出的数字乘以2得到的数字）：
 ```
-fakeroot make -j72 deb-pkg
+fakeroot make -j$(nproc) deb-pkg
 ```
 等待内核编译完毕，就可以安装内核：
 ```
