@@ -132,10 +132,9 @@ rosdep update
 ### 构建ROS包
 首先选择一个目录中的Catkin工作区：
 ```
-cd catkin_ws
+mkdir -p catkin_ws && cd catkin_ws
 mkdir -p src
 source /opt/ros/noetic/setup.sh
-cd catkin_ws
 catkin_init_workspace src
 cd src
 ```
@@ -145,10 +144,9 @@ git clone --recursive https://github.com/frankaemika/franka_ros src/franka_ros -
 ```
 安装任何缺少的依赖项并构建包：（注意：以下命令中注意将 `/home/glasgow/catkin_ws/libfranka/build` 替换成自己的 `libfranka build` 构建路径。）
 ```
+cd ..
 rosdep install --from-paths src --ignore-src --rosdistro noetic -y --skip-keys libfranka
-cd catkin_ws
 catkin_make -DCMAKE_BUILD_TYPE=Release -DFranka_DIR:PATH=/home/glasgow/catkin_ws/libfranka/build
-cd catkin_ws
 source devel/setup.sh
 ```
 到这里，Franka Panda的环境就配置好了。
