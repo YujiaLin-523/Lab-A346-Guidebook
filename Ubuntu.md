@@ -10,7 +10,7 @@
 `QQ` https://im.qq.com/linuxqq/index.shtml   
 `Microsoft Edge` https://www.microsoft.com/zh-cn/edge  
 `VS Code` https://code.visualstudio.com/  
-`Clash Verge` https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v1.5.4
+`Clash Verge` https://github.com/clash-verge-rev/clash-verge-rev/releases/
 
 .deb文件双击可以直接安装，如果不能直接安装，则尝试使用命令行安装：
 ```
